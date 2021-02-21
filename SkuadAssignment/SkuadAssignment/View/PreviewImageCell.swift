@@ -10,6 +10,7 @@ import UIKit
 
 class PreviewImageCell: UICollectionViewCell {
     @IBOutlet weak var previewImageView: UIImageView!
+    var identifier: String = ""
     
     func configure(_ image: UIImage?) {
         previewImageView.image = image
