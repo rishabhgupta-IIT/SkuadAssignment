@@ -38,7 +38,7 @@
                                     <outlet property="delegate" destination="7aO-t5-H6q" id="v6O-86-3Sh"/>
                                 </connections>
                             </textField>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="I5S-Yv-jHo">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="I5S-Yv-jHo">
                                 <rect key="frame" x="99" y="338" width="240" height="128"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
@@ -56,8 +56,8 @@
                             <constraint firstItem="qqM-Lk-hL3" firstAttribute="top" secondItem="SXq-lL-3rx" secondAttribute="top" id="CBz-0e-OGy"/>
                             <constraint firstItem="SXq-lL-3rx" firstAttribute="leading" secondItem="Rzp-FZ-aQ5" secondAttribute="leading" constant="20" id="Gxf-CY-jpe"/>
                             <constraint firstItem="SXq-lL-3rx" firstAttribute="top" secondItem="phh-78-A17" secondAttribute="top" constant="10" id="L6h-B7-Jzt"/>
-                            <constraint firstAttribute="trailing" secondItem="I5S-Yv-jHo" secondAttribute="trailing" constant="20" id="VEg-VQ-QPf"/>
-                            <constraint firstItem="I5S-Yv-jHo" firstAttribute="leading" secondItem="Rzp-FZ-aQ5" secondAttribute="leading" constant="20" id="chh-Pq-Uzo"/>
+                            <constraint firstAttribute="trailing" secondItem="I5S-Yv-jHo" secondAttribute="trailing" id="VEg-VQ-QPf"/>
+                            <constraint firstItem="I5S-Yv-jHo" firstAttribute="leading" secondItem="Rzp-FZ-aQ5" secondAttribute="leading" id="chh-Pq-Uzo"/>
                             <constraint firstItem="qqM-Lk-hL3" firstAttribute="leading" secondItem="SXq-lL-3rx" secondAttribute="trailing" constant="5" id="lUU-ry-UEd"/>
                             <constraint firstItem="I5S-Yv-jHo" firstAttribute="top" secondItem="SXq-lL-3rx" secondAttribute="bottom" constant="5" id="oD4-wp-Bhm"/>
                         </constraints>

@@ -26,11 +26,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewIdentifier") {
             cell.textLabel?.text = queries[indexPath.row]
+            cell.selectionStyle = .none
             return cell
         }
         else {
             let cell = UITableViewCell(style: .default, reuseIdentifier: "tableViewIdentifier")
             cell.textLabel?.text = queries[indexPath.row]
+            cell.selectionStyle = .none
             return cell
         }
     }
