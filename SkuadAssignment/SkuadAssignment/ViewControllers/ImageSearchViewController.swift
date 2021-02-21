@@ -35,9 +35,14 @@ class ImageSearchViewController: UIViewController {
         filterContentForSearchText = scheduleFetchImages(withDelay: 1, action: {
             self.currentPage = 1
             self.listItems.removeAll()
-            self.prepareDataSource(self.searchController.searchBar.text!, self.currentPage)
+            if self.searchController.searchBar.text!.isEmpty {
+                self.listItems.removeAll()
+                self.collectionView.reloadData()
+            }
+            else {
+                self.prepareDataSource(self.searchController.searchBar.text!, self.currentPage)
+            }
         })
-        prepareDataSource(searchController.searchBar.text!, currentPage)
     }
     
     override func viewWillAppear(_ animated: Bool) {
