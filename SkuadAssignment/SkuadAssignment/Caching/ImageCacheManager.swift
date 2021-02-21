@@ -14,6 +14,12 @@ class ImageCacheManager: NSObject {
      * Shared instance
      */
     static var shared = ImageCacheManager()
+    lazy var downloadQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.name = "com.skuad.downloader"
+        queue.qualityOfService = .userInteractive
+        return queue
+    }()
     
     /**
      * Private constructor to ensure only sharedInstance can be used

@@ -15,12 +15,6 @@ class FullScreenImageViewController: UIViewController {
     var listItems = [SearchImageItem]()
     var indexNumber = IndexPath(item: 0, section: 1)
     let imageCache = ImageCacheManager.shared
-    lazy private var downloadQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.name = "com.skuad.downloader"
-        queue.qualityOfService = .userInteractive
-        return queue
-    }()
     
     static func viewController(_ listItems: [SearchImageItem], _ indexNumber: IndexPath) -> FullScreenImageViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -62,14 +56,15 @@ extension FullScreenImageViewController: UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let fullScreenImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "fullScreenImageCell", for: indexPath) as! FullScreenImageCell
-        let imageURL = listItems[indexPath.row].previewURL
+        let imageURL = listItems[indexPath.row].webformatURL
         fullScreenImageCell.identifier = imageURL
         setImage(cell: fullScreenImageCell, at: indexPath)
         return fullScreenImageCell
     }
     
     func setImage(cell: FullScreenImageCell, at indexPath: IndexPath) {
-        let imageURL = listItems[indexPath.row].previewURL
+        let imageURL = listItems[indexPath.row].webformatURL
+        let previewURL = listItems[indexPath.row].previewURL
         
         if let imageAvailable = imageCache.getImage(imageURL) {
             cell.configure(imageAvailable)
@@ -77,8 +72,12 @@ extension FullScreenImageViewController: UICollectionViewDelegate, UICollectionV
         else {
             let previewImage = UIImage(named: "dummy_image")
             cell.configure(previewImage)
-
-            downloadQueue.addOperation { [weak self] in
+            
+            if let imageAvailable = imageCache.getImage(previewURL) {
+                cell.configure(imageAvailable)
+            }
+            
+            imageCache.downloadQueue.addOperation { [weak self] in
                 self?.imageCache.downloadAndSaveImage(imageURL)
                 DispatchQueue.main.async {
                     guard cell.identifier == imageURL, let imageAvailable = self?.imageCache.getImage(imageURL) else { return }

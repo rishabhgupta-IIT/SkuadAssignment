@@ -19,13 +19,7 @@ class ImageSearchResultViewController: UIViewController {
     var addToLRU: (() -> Void) = {}
     var listItems = [SearchImageItem]()
     let imageCache = ImageCacheManager.shared
-    lazy private var downloadQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.name = "com.skuad.downloader"
-        queue.qualityOfService = .userInteractive
-        return queue
-    }()
-    
+        
     static func viewController(_ queryString: String, _ addToLRU: @escaping (() -> Void)) -> ImageSearchResultViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let searchImageVC = storyboard.instantiateViewController(withIdentifier: "searchImageVC") as! ImageSearchResultViewController
@@ -106,7 +100,7 @@ extension ImageSearchResultViewController: UICollectionViewDataSource, UICollect
             let previewImage = UIImage(named: "dummy_image")
             cell.configure(previewImage)
 
-            downloadQueue.addOperation { [weak self] in
+            imageCache.downloadQueue.addOperation { [weak self] in
                 self?.imageCache.downloadAndSaveImage(imageURL)
                 DispatchQueue.main.async {
                     guard cell.identifier == imageURL, let imageAvailable = self?.imageCache.getImage(imageURL) else { return }
