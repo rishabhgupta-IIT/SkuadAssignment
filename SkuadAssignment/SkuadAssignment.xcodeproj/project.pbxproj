@@ -16,6 +16,9 @@
 		186CD84A25E0FCFE00926E91 /* SearchImageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186CD84925E0FCFE00926E91 /* SearchImageItem.swift */; };
 		1898490C25E107AF00C5F6B9 /* PreviewImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1898490B25E107AF00C5F6B9 /* PreviewImageCell.xib */; };
 		1898490F25E108C500C5F6B9 /* PreviewImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1898490E25E108C500C5F6B9 /* PreviewImageCell.swift */; };
+		1898491625E1FCE800C5F6B9 /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1898491525E1FCE800C5F6B9 /* FullScreenImageViewController.swift */; };
+		1898491925E2019900C5F6B9 /* FullScreenImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1898491825E2019900C5F6B9 /* FullScreenImageCell.swift */; };
+		1898491C25E201B300C5F6B9 /* FullScreenImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1898491B25E201B300C5F6B9 /* FullScreenImageCell.xib */; };
 		18D16FCA25E105BE00905A81 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D16FC925E105BE00905A81 /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +34,9 @@
 		186CD84925E0FCFE00926E91 /* SearchImageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchImageItem.swift; sourceTree = "<group>"; };
 		1898490B25E107AF00C5F6B9 /* PreviewImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreviewImageCell.xib; sourceTree = "<group>"; };
 		1898490E25E108C500C5F6B9 /* PreviewImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageCell.swift; sourceTree = "<group>"; };
+		1898491525E1FCE800C5F6B9 /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
+		1898491825E2019900C5F6B9 /* FullScreenImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageCell.swift; sourceTree = "<group>"; };
+		1898491B25E201B300C5F6B9 /* FullScreenImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FullScreenImageCell.xib; sourceTree = "<group>"; };
 		18D16FC925E105BE00905A81 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				186CD82D25E0F2B800926E91 /* ImageSearchViewController.swift */,
+				1898491525E1FCE800C5F6B9 /* FullScreenImageViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -107,6 +114,8 @@
 				186CD82F25E0F2B800926E91 /* Main.storyboard */,
 				1898490B25E107AF00C5F6B9 /* PreviewImageCell.xib */,
 				1898490E25E108C500C5F6B9 /* PreviewImageCell.swift */,
+				1898491825E2019900C5F6B9 /* FullScreenImageCell.swift */,
+				1898491B25E201B300C5F6B9 /* FullScreenImageCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -171,6 +180,7 @@
 				186CD83625E0F2BB00926E91 /* LaunchScreen.storyboard in Resources */,
 				186CD83325E0F2BB00926E91 /* Assets.xcassets in Resources */,
 				1898490C25E107AF00C5F6B9 /* PreviewImageCell.xib in Resources */,
+				1898491C25E201B300C5F6B9 /* FullScreenImageCell.xib in Resources */,
 				186CD83125E0F2B800926E91 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,8 +194,10 @@
 			files = (
 				1898490F25E108C500C5F6B9 /* PreviewImageCell.swift in Sources */,
 				186CD84A25E0FCFE00926E91 /* SearchImageItem.swift in Sources */,
+				1898491925E2019900C5F6B9 /* FullScreenImageCell.swift in Sources */,
 				186CD82E25E0F2B800926E91 /* ImageSearchViewController.swift in Sources */,
 				18D16FCA25E105BE00905A81 /* NetworkManager.swift in Sources */,
+				1898491625E1FCE800C5F6B9 /* FullScreenImageViewController.swift in Sources */,
 				186CD82A25E0F2B800926E91 /* AppDelegate.swift in Sources */,
 				186CD82C25E0F2B800926E91 /* SceneDelegate.swift in Sources */,
 			);

@@ -46,8 +46,9 @@ class ImageSearchViewController: UIViewController {
     }
     
     private func scheduleFetchImages(withDelay delay: TimeInterval, queue: DispatchQueue = .main, action: @escaping (() -> Void)) -> () -> Void {
+        var workItem: DispatchWorkItem?
+
         return {
-            var workItem: DispatchWorkItem?
             workItem?.cancel()
             workItem = DispatchWorkItem(block: action)
             queue.asyncAfter(deadline: .now() + delay, execute: workItem!)
@@ -117,6 +118,11 @@ extension ImageSearchViewController: UICollectionViewDataSource, UICollectionVie
             }
         }
         return previewImageCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let fullScreenVC = FullScreenImageViewController.viewController(listItems)
+        navigationController?.pushViewController(fullScreenVC, animated: true)
     }
 }
 
