@@ -17,7 +17,7 @@ class NetworkManager: NSObject {
     /**
      * Private constructor to ensure only sharedInstance can be used
      */
-    override fileprivate init() {
+    override private init() {
         super.init()
     }
     

@@ -13,11 +13,20 @@ class FullScreenImageViewController: UIViewController {
     @IBOutlet weak private var collectionView: UICollectionView!
     
     var listItems = [SearchImageItem]()
+    var indexNumber = IndexPath(item: 0, section: 1)
+    let imageCache = ImageCacheManager.shared
+    lazy private var downloadQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.name = "com.skuad.downloader"
+        queue.qualityOfService = .userInteractive
+        return queue
+    }()
     
-    static func viewController(_ listItems: [SearchImageItem]) -> FullScreenImageViewController {
+    static func viewController(_ listItems: [SearchImageItem], _ indexNumber: IndexPath) -> FullScreenImageViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let fullScreenImageVC = storyboard.instantiateViewController(withIdentifier: "fullScreenImageVC") as! FullScreenImageViewController
         fullScreenImageVC.listItems = listItems
+        fullScreenImageVC.indexNumber = indexNumber
         return fullScreenImageVC
     }
     
@@ -39,6 +48,11 @@ class FullScreenImageViewController: UIViewController {
         collectionView.reloadData()
         collectionView.register(UINib(nibName: "FullScreenImageCell", bundle: nil), forCellWithReuseIdentifier: "fullScreenImageCell")
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.collectionView.scrollToItem(at: indexNumber, at: .right, animated: false)
+    }
 }
 
 extension FullScreenImageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -47,29 +61,35 @@ extension FullScreenImageViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "fullScreenImageCell", for: indexPath) as! FullScreenImageCell
-        let imageURL = listItems[indexPath.row].userImageURL
-        if let previewImageData = listItems[indexPath.row].userImageData {
-            imageCell.configure(UIImage(data: previewImageData))
+        let fullScreenImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "fullScreenImageCell", for: indexPath) as! FullScreenImageCell
+        let imageURL = listItems[indexPath.row].previewURL
+        fullScreenImageCell.identifier = imageURL
+        setImage(cell: fullScreenImageCell, at: indexPath)
+        return fullScreenImageCell
+    }
+    
+    func setImage(cell: FullScreenImageCell, at indexPath: IndexPath) {
+        let imageURL = listItems[indexPath.row].previewURL
+        
+        if let imageAvailable = imageCache.getImage(imageURL) {
+            cell.configure(imageAvailable)
         }
         else {
-            var previewImage = UIImage(named: "avatar-empty")
-            imageCell.configure(previewImage)
-            DispatchQueue.global().async { [weak self] in
+            let previewImage = UIImage(named: "avatar-empty")
+            cell.configure(previewImage)
+
+            downloadQueue.addOperation { [weak self] in
                 if let url = URL(string: imageURL),
                    let data = try? Data(contentsOf: url) {
-                    print("fetched data for \(indexPath.row) with \(imageURL)")
-                    self?.listItems[indexPath.row].userImageData = data
-                    previewImage = UIImage(data: data)
-                }
-                
-                DispatchQueue.main.async {
-                    if let largeImageData = self?.listItems[indexPath.row].userImageData {
-                        imageCell.configure(UIImage(data: largeImageData))
+                    if let image = UIImage(data: data) {
+                        self?.imageCache.saveImage(image, imageURL)
+                        DispatchQueue.main.async {
+                            guard cell.identifier == imageURL else { return }
+                            cell.configure(image)
+                        }
                     }
                 }
             }
         }
-        return imageCell
     }
 }

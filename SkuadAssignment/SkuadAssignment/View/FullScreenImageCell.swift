@@ -10,7 +10,8 @@ import UIKit
 
 class FullScreenImageCell: UICollectionViewCell {
     @IBOutlet weak var fullScreenImageView: UIImageView!
-    
+    var identifier: String = ""
+
     func configure(_ image: UIImage?) {
         fullScreenImageView.image = image
     }

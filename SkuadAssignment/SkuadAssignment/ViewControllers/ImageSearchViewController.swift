@@ -16,7 +16,7 @@ class ImageSearchViewController: UIViewController {
     var isLoadingList : Bool = false
     var listItems = [SearchImageItem]()
     var filterContentForSearchText: (() -> Void)?
-    let imageCache = NSCache<NSString, UIImage>()
+    let imageCache = ImageCacheManager.shared
     lazy private var downloadQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.name = "com.skuad.downloader"
@@ -100,7 +100,7 @@ extension ImageSearchViewController: UICollectionViewDataSource, UICollectionVie
     func setImage(cell: PreviewImageCell, at indexPath: IndexPath) {
         let imageURL = listItems[indexPath.row].previewURL
         
-        if let imageAvailable = imageCache.object(forKey: imageURL as NSString) {
+        if let imageAvailable = imageCache.getImage(imageURL) {
             cell.configure(imageAvailable)
         }
         else {
@@ -111,7 +111,7 @@ extension ImageSearchViewController: UICollectionViewDataSource, UICollectionVie
                 if let url = URL(string: imageURL),
                    let data = try? Data(contentsOf: url) {
                     if let image = UIImage(data: data) {
-                        self?.imageCache.setObject(image, forKey: imageURL as NSString)
+                        self?.imageCache.saveImage(image, imageURL)
                         DispatchQueue.main.async {
                             guard cell.identifier == imageURL else { return }
                             cell.configure(image)
@@ -123,7 +123,7 @@ extension ImageSearchViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let fullScreenVC = FullScreenImageViewController.viewController(listItems)
+        let fullScreenVC = FullScreenImageViewController.viewController(listItems, indexPath)
         navigationController?.pushViewController(fullScreenVC, animated: true)
     }
     
