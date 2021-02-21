@@ -45,10 +45,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="yub-yh-3o5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="4pe-la-rKR"/>
-                            <constraint firstAttribute="bottom" secondItem="yub-yh-3o5" secondAttribute="bottom" constant="20" id="Hw4-pM-Gr5"/>
-                            <constraint firstItem="yub-yh-3o5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="K4b-X5-DPf"/>
-                            <constraint firstAttribute="trailing" secondItem="yub-yh-3o5" secondAttribute="trailing" constant="20" id="aer-IE-AsF"/>
+                            <constraint firstItem="yub-yh-3o5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4pe-la-rKR"/>
+                            <constraint firstAttribute="bottom" secondItem="yub-yh-3o5" secondAttribute="bottom" id="Hw4-pM-Gr5"/>
+                            <constraint firstItem="yub-yh-3o5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="K4b-X5-DPf"/>
+                            <constraint firstAttribute="trailing" secondItem="yub-yh-3o5" secondAttribute="trailing" id="aer-IE-AsF"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="L29-Zc-nJZ"/>

@@ -46,13 +46,13 @@ class ImageSearchViewController: UIViewController {
     }
     
     private func setupCollectionViewFlowLayout() {
-        let cellWidth = (Int(UIScreen.main.bounds.width)/itemInSongleRow) - (itemSpacing*(itemInSongleRow+1))
+        let cellWidth = (((Int(UIScreen.main.bounds.width) - (itemSpacing*(itemInSongleRow+1)))/itemInSongleRow))
         let cellSize = CGSize(width: cellWidth , height:cellWidth)
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = cellSize
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        layout.sectionInset = UIEdgeInsets(top: CGFloat(itemSpacing), left: CGFloat(itemSpacing), bottom: CGFloat(itemSpacing), right: CGFloat(itemSpacing))
         layout.minimumLineSpacing = CGFloat(itemSpacing)
         layout.minimumInteritemSpacing = CGFloat(itemSpacing)
         collectionView.setCollectionViewLayout(layout, animated: true)
