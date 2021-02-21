@@ -72,20 +72,26 @@ class ImageSearchResultViewController: UIViewController {
     private func prepareDataSource(_ title: String, _ pageNumber: Int) {
         NetworkManager.sharedInstance.getImages(with: title, pageNumber) { [weak self] itemList, error in
             if let strongSelf = self {
+                DispatchQueue.main.async {
+                    strongSelf.activityIndicator.stopAnimating()
+                }
                 if let itemList = itemList, itemList.count > 0 {
                     // success
                     strongSelf.listItems += itemList
                     DispatchQueue.main.async {
                         strongSelf.addToLRU()
                         strongSelf.collectionView.reloadData()
-                        strongSelf.activityIndicator.stopAnimating()
                     }
                 }
-                else if error != nil {
+                else {
                     DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                        self?.present(alert, animated: true, completion: nil)
+                        let alert = UIAlertController(title: "Error", message: "No data available!!!", preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+                            if strongSelf.currentPage == 1 {
+                                strongSelf.navigationController?.popViewController(animated: true)
+                            }
+                        }))
+                        strongSelf.present(alert, animated: true, completion: nil)
                     }
                 }
             }
@@ -133,7 +139,7 @@ extension ImageSearchResultViewController: UICollectionViewDataSource, UICollect
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // pagination
-        if indexPath.item > (currentPage * NetworkManager.sharedInstance.perPage - 10) {
+        if indexPath.item > (currentPage * NetworkManager.sharedInstance.perPage - 30) {
             currentPage += 1
             prepareDataSource(queryString, currentPage)
         }
