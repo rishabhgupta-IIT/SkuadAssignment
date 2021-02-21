@@ -84,7 +84,11 @@ class ImageSearchViewController: UIViewController {
                     }
                 }
                 else if error != nil {
-                    DispatchQueue.main.async fj
+                    DispatchQueue.main.async {
+                        let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                        self?.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
         }
