@@ -19,6 +19,7 @@ class ImageSearchResultViewController: UIViewController {
     var addToLRU: (() -> Void) = {}
     var listItems = [SearchImageItem]()
     let imageCache = ImageCacheManager.shared
+    let activityIndicator = UIActivityIndicatorView(style: .medium)
         
     static func viewController(_ queryString: String, _ addToLRU: @escaping (() -> Void)) -> ImageSearchResultViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -33,6 +34,7 @@ class ImageSearchResultViewController: UIViewController {
         title = "Image Search"
         collectionView.register(UINib(nibName: "PreviewImageCell", bundle: nil), forCellWithReuseIdentifier: "previewImageCell")
         setupCollectionViewFlowLayout()
+        setupActivityIndicator()
         prepareDataSource(queryString, currentPage)
     }
     
@@ -54,6 +56,19 @@ class ImageSearchResultViewController: UIViewController {
         collectionView.setCollectionViewLayout(layout, animated: true)
     }
     
+    private func setupActivityIndicator() {
+        // Create the Activity Indicator.
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+        
+        // Position it at the center of the ViewController.
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+                                        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
+        activityIndicator.startAnimating()
+    }
+    
     private func prepareDataSource(_ title: String, _ pageNumber: Int) {
         NetworkManager.sharedInstance.getImages(with: title, pageNumber) { [weak self] itemList, error in
             if let strongSelf = self {
@@ -63,6 +78,7 @@ class ImageSearchResultViewController: UIViewController {
                     DispatchQueue.main.async {
                         strongSelf.addToLRU()
                         strongSelf.collectionView.reloadData()
+                        strongSelf.activityIndicator.stopAnimating()
                     }
                 }
                 else if error != nil {

@@ -26,8 +26,6 @@ class FullScreenImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
-        collectionView.dataSource = self
         let cellWidth = UIScreen.main.bounds.width
         let cellSize = CGSize(width: cellWidth , height:cellWidth)
         
@@ -39,13 +37,15 @@ class FullScreenImageViewController: UIViewController {
         layout.minimumInteritemSpacing = 0
         collectionView.setCollectionViewLayout(layout, animated: true)
         collectionView.isPagingEnabled = true
-        collectionView.reloadData()
         collectionView.register(UINib(nibName: "FullScreenImageCell", bundle: nil), forCellWithReuseIdentifier: "fullScreenImageCell")
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.collectionView.scrollToItem(at: indexNumber, at: .right, animated: false)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.scrollToItem(at: indexNumber, at: .right, animated: false)
+        collectionView.setNeedsLayout()
     }
 }
 

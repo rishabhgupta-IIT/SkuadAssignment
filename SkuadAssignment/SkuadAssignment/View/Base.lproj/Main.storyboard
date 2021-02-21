@@ -151,10 +151,6 @@
                                         <size key="customSize" width="412" height="336"/>
                                     </collectionViewCell>
                                 </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="aLE-15-riv" id="3cA-jo-RLP"/>
-                                    <outlet property="delegate" destination="aLE-15-riv" id="g6p-cX-aVu"/>
-                                </connections>
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bMs-Vd-0Ds"/>
