@@ -28,7 +28,12 @@ class ImageCacheManager: NSObject {
         return imageCache.object(forKey: imageURL as NSString)
     }
     
-    func saveImage(_ image: UIImage, _ imageURL: String) {
-        imageCache.setObject(image, forKey: imageURL as NSString)
+    func downloadAndSaveImage(_ imageURL: String) {
+        if let url = URL(string: imageURL),
+           let data = try? Data(contentsOf: url) {
+            if let image = UIImage(data: data) {
+                imageCache.setObject(image, forKey: imageURL as NSString)
+            }
+        }
     }
 }

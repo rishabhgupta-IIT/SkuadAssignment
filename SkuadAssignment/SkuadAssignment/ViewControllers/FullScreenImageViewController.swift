@@ -79,15 +79,10 @@ extension FullScreenImageViewController: UICollectionViewDelegate, UICollectionV
             cell.configure(previewImage)
 
             downloadQueue.addOperation { [weak self] in
-                if let url = URL(string: imageURL),
-                   let data = try? Data(contentsOf: url) {
-                    if let image = UIImage(data: data) {
-                        self?.imageCache.saveImage(image, imageURL)
-                        DispatchQueue.main.async {
-                            guard cell.identifier == imageURL else { return }
-                            cell.configure(image)
-                        }
-                    }
+                self?.imageCache.downloadAndSaveImage(imageURL)
+                DispatchQueue.main.async {
+                    guard cell.identifier == imageURL, let imageAvailable = self?.imageCache.getImage(imageURL) else { return }
+                    cell.configure(imageAvailable)
                 }
             }
         }
