@@ -9,7 +9,6 @@ import UIKit
 
 class ImageSearchViewController: UIViewController {
     
-    @IBOutlet weak private var tableView: UITableView!
     @IBOutlet weak private var collectionView: UICollectionView!
     
     let searchController = UISearchController(searchResultsController: nil)
@@ -17,9 +16,9 @@ class ImageSearchViewController: UIViewController {
     var itemSpacing = 5
     var currentPage = 1
     var isLoadingList : Bool = false
+    var queryString = ""
+    var addToLRU: (() -> Void) = {}
     var listItems = [SearchImageItem]()
-    var queries = [String]()
-    var filterContentForSearchText: (() -> Void)?
     let imageCache = ImageCacheManager.shared
     lazy private var downloadQueue: OperationQueue = {
         let queue = OperationQueue()
@@ -28,23 +27,20 @@ class ImageSearchViewController: UIViewController {
         return queue
     }()
     
+    static func viewController(_ queryString: String, _ addToLRU: @escaping (() -> Void)) -> ImageSearchViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let searchImageVC = storyboard.instantiateViewController(withIdentifier: "searchImageVC") as! ImageSearchViewController
+        searchImageVC.queryString = queryString
+        searchImageVC.addToLRU = addToLRU
+        return searchImageVC
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Image Search"
         collectionView.register(UINib(nibName: "PreviewImageCell", bundle: nil), forCellWithReuseIdentifier: "previewImageCell")
-        setupSearchController()
         setupCollectionViewFlowLayout()
-        filterContentForSearchText = scheduleFetchImages(withDelay: 1, action: {
-            self.currentPage = 1
-            self.listItems.removeAll()
-            if self.searchController.searchBar.text!.isEmpty {
-                self.listItems.removeAll()
-                self.collectionView.reloadData()
-            }
-            else {
-                self.prepareDataSource(self.searchController.searchBar.text!, self.currentPage)
-            }
-        })
+        prepareDataSource(queryString, currentPage)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,18 +61,6 @@ class ImageSearchViewController: UIViewController {
         collectionView.setCollectionViewLayout(layout, animated: true)
     }
     
-    private func setupSearchController() {
-        // Setup the Search Controller
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "What are you looking for?"
-        searchController.searchBar.showsCancelButton = false
-        searchController.searchBar.showsSearchResultsButton = true
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-        navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
     private func scheduleFetchImages(withDelay delay: TimeInterval, queue: DispatchQueue = .main, action: @escaping (() -> Void)) -> () -> Void {
         var workItem: DispatchWorkItem?
         
@@ -90,35 +74,20 @@ class ImageSearchViewController: UIViewController {
     private func prepareDataSource(_ title: String, _ pageNumber: Int) {
         NetworkManager.sharedInstance.getImages(with: title, pageNumber) { [weak self] itemList, error in
             if let strongSelf = self {
-                if let itemList = itemList {
+                if let itemList = itemList, itemList.count > 0 {
                     // success
                     strongSelf.listItems += itemList
                     DispatchQueue.main.async {
-                        strongSelf.addToLRU(title)
+                        strongSelf.addToLRU()
                         strongSelf.isLoadingList = false
                         strongSelf.collectionView.reloadData()
                     }
                 }
                 else if error != nil {
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                        self?.present(alert, animated: true, completion: nil)
-                    }
+                    DispatchQueue.main.async fj
                 }
             }
         }
-    }
-    
-    private func addToLRU(_ text: String) {
-        var arr = UserDefaults.standard.value(forKey: "LRU") as? [String]
-        arr?.append(text)
-        UserDefaults.standard.set(arr, forKey: "LRU")
-    }
-    
-    private func getFromLRU() -> [String] {
-        let arr = UserDefaults.standard.value(forKey: "LRU") as? [String] ?? []
-        return arr
     }
 }
 
@@ -164,37 +133,7 @@ extension ImageSearchViewController: UICollectionViewDataSource, UICollectionVie
         // pagination
         if indexPath.item > (currentPage * NetworkManager.sharedInstance.perPage - 10) {
             currentPage += 1
-            prepareDataSource(searchController.searchBar.text!, currentPage)
-        }
-    }
-}
-
-extension ImageSearchViewController: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        if !searchController.searchBar.text!.isEmpty {
-            filterContentForSearchText!()
-        }
-        let arr = getFromLRU()
-        queries = arr
-        tableView.reloadData()
-    }
-}
-
-extension ImageSearchViewController: UITableViewDataSource, UITabBarDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        queries.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewIdentifier") {
-            cell.textLabel?.text = queries[indexPath.row]
-            return cell
-        }
-        else {
-            let cell = UITableViewCell(style: .default, reuseIdentifier: "tableViewIdentifier")
-            cell.textLabel?.text = queries[indexPath.row]
-            return cell
+            prepareDataSource(queryString, currentPage)
         }
     }
 }
