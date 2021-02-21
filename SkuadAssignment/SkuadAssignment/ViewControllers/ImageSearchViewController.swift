@@ -12,6 +12,8 @@ class ImageSearchViewController: UIViewController {
     @IBOutlet weak private var collectionView: UICollectionView!
     
     let searchController = UISearchController(searchResultsController: nil)
+    var itemInSongleRow = 3
+    var itemSpacing = 5
     var currentPage = 1
     var isLoadingList : Bool = false
     var listItems = [SearchImageItem]()
@@ -29,6 +31,7 @@ class ImageSearchViewController: UIViewController {
         title = "Image Search"
         collectionView.register(UINib(nibName: "PreviewImageCell", bundle: nil), forCellWithReuseIdentifier: "previewImageCell")
         setupSearchController()
+        setupCollectionViewFlowLayout()
         filterContentForSearchText = scheduleFetchImages(withDelay: 1, action: {
             self.currentPage = 1
             self.listItems.removeAll()
@@ -40,6 +43,19 @@ class ImageSearchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
+    private func setupCollectionViewFlowLayout() {
+        let cellWidth = (Int(UIScreen.main.bounds.width)/itemInSongleRow) - (itemSpacing*(itemInSongleRow+1))
+        let cellSize = CGSize(width: cellWidth , height:cellWidth)
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = cellSize
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        layout.minimumLineSpacing = CGFloat(itemSpacing)
+        layout.minimumInteritemSpacing = CGFloat(itemSpacing)
+        collectionView.setCollectionViewLayout(layout, animated: true)
     }
     
     private func setupSearchController() {
