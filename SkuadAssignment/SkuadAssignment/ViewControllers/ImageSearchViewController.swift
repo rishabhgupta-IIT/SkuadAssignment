@@ -104,7 +104,7 @@ extension ImageSearchViewController: UICollectionViewDataSource, UICollectionVie
             cell.configure(imageAvailable)
         }
         else {
-            let previewImage = UIImage(named: "avatar-empty")
+            let previewImage = UIImage(named: "dummy_image")
             cell.configure(previewImage)
 
             downloadQueue.addOperation { [weak self] in
