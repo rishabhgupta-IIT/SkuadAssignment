@@ -13,7 +13,7 @@ class NetworkManager: NSObject {
      * Shared instance
      */
     static var sharedInstance = NetworkManager()
-    
+    var perPage = 50
     /**
      * Private constructor to ensure only sharedInstance can be used
      */
@@ -27,7 +27,7 @@ class NetworkManager: NSObject {
             "image_type": "photo",
             "q": queryString,
             "page": pageNumber,
-            "per_page": 20
+            "per_page": perPage
         ]
         
         var dataTask: URLSessionDataTask
