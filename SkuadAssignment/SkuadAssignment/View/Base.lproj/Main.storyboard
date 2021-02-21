@@ -17,6 +17,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="S7Z-Wn-M1d">
+                                <rect key="frame" x="9" y="20" width="395" height="856"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="JtC-ko-LDo"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="BSk-kW-nHr"/>
+                                </connections>
+                            </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yub-yh-3o5">
                                 <rect key="frame" x="9" y="20" width="395" height="856"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -46,14 +54,19 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="yub-yh-3o5" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4pe-la-rKR"/>
+                            <constraint firstItem="S7Z-Wn-M1d" firstAttribute="bottom" secondItem="yub-yh-3o5" secondAttribute="bottom" id="9bb-K4-3yH"/>
                             <constraint firstAttribute="bottom" secondItem="yub-yh-3o5" secondAttribute="bottom" id="Hw4-pM-Gr5"/>
                             <constraint firstItem="yub-yh-3o5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="K4b-X5-DPf"/>
                             <constraint firstAttribute="trailing" secondItem="yub-yh-3o5" secondAttribute="trailing" id="aer-IE-AsF"/>
+                            <constraint firstItem="S7Z-Wn-M1d" firstAttribute="trailing" secondItem="yub-yh-3o5" secondAttribute="trailing" id="hVG-h7-LRt"/>
+                            <constraint firstItem="S7Z-Wn-M1d" firstAttribute="top" secondItem="yub-yh-3o5" secondAttribute="top" id="qWM-J9-dq4"/>
+                            <constraint firstItem="S7Z-Wn-M1d" firstAttribute="leading" secondItem="yub-yh-3o5" secondAttribute="leading" id="y86-q2-UXV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="L29-Zc-nJZ"/>
                     <connections>
                         <outlet property="collectionView" destination="yub-yh-3o5" id="m8c-r7-rH1"/>
+                        <outlet property="tableView" destination="S7Z-Wn-M1d" id="Chw-aN-drC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -130,6 +143,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="systemBackgroundColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

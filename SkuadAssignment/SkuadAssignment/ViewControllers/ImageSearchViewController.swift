@@ -9,6 +9,7 @@ import UIKit
 
 class ImageSearchViewController: UIViewController {
     
+    @IBOutlet weak private var tableView: UITableView!
     @IBOutlet weak private var collectionView: UICollectionView!
     
     let searchController = UISearchController(searchResultsController: nil)
@@ -17,6 +18,7 @@ class ImageSearchViewController: UIViewController {
     var currentPage = 1
     var isLoadingList : Bool = false
     var listItems = [SearchImageItem]()
+    var queries = [String]()
     var filterContentForSearchText: (() -> Void)?
     let imageCache = ImageCacheManager.shared
     lazy private var downloadQueue: OperationQueue = {
@@ -68,6 +70,8 @@ class ImageSearchViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "What are you looking for?"
+        searchController.searchBar.showsCancelButton = false
+        searchController.searchBar.showsSearchResultsButton = true
         navigationItem.searchController = searchController
         definesPresentationContext = true
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -87,8 +91,10 @@ class ImageSearchViewController: UIViewController {
         NetworkManager.sharedInstance.getImages(with: title, pageNumber) { [weak self] itemList, error in
             if let strongSelf = self {
                 if let itemList = itemList {
+                    // success
                     strongSelf.listItems += itemList
                     DispatchQueue.main.async {
+                        strongSelf.addToLRU(title)
                         strongSelf.isLoadingList = false
                         strongSelf.collectionView.reloadData()
                     }
@@ -102,6 +108,17 @@ class ImageSearchViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func addToLRU(_ text: String) {
+        var arr = UserDefaults.standard.value(forKey: "LRU") as? [String]
+        arr?.append(text)
+        UserDefaults.standard.set(arr, forKey: "LRU")
+    }
+    
+    private func getFromLRU() -> [String] {
+        let arr = UserDefaults.standard.value(forKey: "LRU") as? [String] ?? []
+        return arr
     }
 }
 
@@ -157,6 +174,27 @@ extension ImageSearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if !searchController.searchBar.text!.isEmpty {
             filterContentForSearchText!()
+        }
+        let arr = getFromLRU()
+        queries = arr
+        tableView.reloadData()
+    }
+}
+
+extension ImageSearchViewController: UITableViewDataSource, UITabBarDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        queries.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewIdentifier") {
+            cell.textLabel?.text = queries[indexPath.row]
+            return cell
+        }
+        else {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: "tableViewIdentifier")
+            cell.textLabel?.text = queries[indexPath.row]
+            return cell
         }
     }
 }
