@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ImageSearchResultViewController.swift
 //  SkuadAssignment
 //
 //  Created by Rishabh Gupta on 2021-02-20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageSearchViewController: UIViewController {
+class ImageSearchResultViewController: UIViewController {
     
     @IBOutlet weak private var collectionView: UICollectionView!
     
@@ -15,7 +15,6 @@ class ImageSearchViewController: UIViewController {
     var itemInSongleRow = 3
     var itemSpacing = 5
     var currentPage = 1
-    var isLoadingList : Bool = false
     var queryString = ""
     var addToLRU: (() -> Void) = {}
     var listItems = [SearchImageItem]()
@@ -27,9 +26,9 @@ class ImageSearchViewController: UIViewController {
         return queue
     }()
     
-    static func viewController(_ queryString: String, _ addToLRU: @escaping (() -> Void)) -> ImageSearchViewController {
+    static func viewController(_ queryString: String, _ addToLRU: @escaping (() -> Void)) -> ImageSearchResultViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let searchImageVC = storyboard.instantiateViewController(withIdentifier: "searchImageVC") as! ImageSearchViewController
+        let searchImageVC = storyboard.instantiateViewController(withIdentifier: "searchImageVC") as! ImageSearchResultViewController
         searchImageVC.queryString = queryString
         searchImageVC.addToLRU = addToLRU
         return searchImageVC
@@ -61,16 +60,6 @@ class ImageSearchViewController: UIViewController {
         collectionView.setCollectionViewLayout(layout, animated: true)
     }
     
-    private func scheduleFetchImages(withDelay delay: TimeInterval, queue: DispatchQueue = .main, action: @escaping (() -> Void)) -> () -> Void {
-        var workItem: DispatchWorkItem?
-        
-        return {
-            workItem?.cancel()
-            workItem = DispatchWorkItem(block: action)
-            queue.asyncAfter(deadline: .now() + delay, execute: workItem!)
-        }
-    }
-    
     private func prepareDataSource(_ title: String, _ pageNumber: Int) {
         NetworkManager.sharedInstance.getImages(with: title, pageNumber) { [weak self] itemList, error in
             if let strongSelf = self {
@@ -79,7 +68,6 @@ class ImageSearchViewController: UIViewController {
                     strongSelf.listItems += itemList
                     DispatchQueue.main.async {
                         strongSelf.addToLRU()
-                        strongSelf.isLoadingList = false
                         strongSelf.collectionView.reloadData()
                     }
                 }
@@ -95,7 +83,7 @@ class ImageSearchViewController: UIViewController {
     }
 }
 
-extension ImageSearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ImageSearchResultViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return listItems.count
     }

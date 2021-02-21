@@ -1,5 +1,5 @@
 //
-//  LRU.swift
+//  LRUCache.swift
 //  SkuadAssignment
 //
 //  Created by Rishabh Gupta on 2021-02-21.
