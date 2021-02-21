@@ -15,6 +15,4 @@ struct SearchImageItem: Codable {
     var id: Int64
     var previewURL: String
     var userImageURL: String
-    var previewImageData: Data?
-    var userImageData: Data?
 }
