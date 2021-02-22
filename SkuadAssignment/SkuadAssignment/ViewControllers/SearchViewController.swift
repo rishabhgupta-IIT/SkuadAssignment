@@ -29,11 +29,12 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func searchButtonTapped() {
-        navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchTextField.text ?? "", { [weak self] in
-            self?.addToLRU(self?.searchTextField.text ?? "")
-        }), animated: true)
+        if !(searchTextField.text?.isEmpty ?? true) {
+            navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchTextField.text ?? "", { [weak self] in
+                self?.addToLRU(self?.searchTextField.text ?? "")
+            }), animated: true)
+        }
     }
-    
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -46,15 +47,24 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewIdentifier") {
             cell.textLabel?.text = queries[indexPath.row]
+            cell.textLabel?.textColor = UIColor.gray
             cell.selectionStyle = .none
             return cell
         }
         else {
             let cell = UITableViewCell(style: .default, reuseIdentifier: "tableViewIdentifier")
             cell.textLabel?.text = queries[indexPath.row]
+            cell.textLabel?.textColor = UIColor.gray
             cell.selectionStyle = .none
             return cell
         }
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if getFromLRU().count > 0 {
+            return "Recent Searches"
+        }
+        return ""
     }
     
     // MARK: - UITableView Delegate methods
