@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class SearchViewController: UIViewController {
     @IBOutlet weak private var tableView: UITableView!
     @IBOutlet weak private var searchTextField: UITextField!
     
@@ -19,6 +19,25 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         title = "Search for images"
         searchTextField.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), for: .editingChanged)
     }
+    
+    private func addToLRU(_ text: String) {
+        LRUCache.sharedInstance.put(text, text)
+    }
+    
+    private func getFromLRU() -> [String] {
+        return LRUCache.sharedInstance.get()
+    }
+    
+    @IBAction func searchButtonTapped() {
+        navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchTextField.text ?? "", { [weak self] in
+            self?.addToLRU(self?.searchTextField.text ?? "")
+        }), animated: true)
+    }
+    
+}
+
+extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
+    // MARK: - UITableView Datasource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return queries.count
@@ -38,11 +57,17 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
+    // MARK: - UITableView Delegate methods
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         navigationController?.pushViewController(ImageSearchResultViewController.viewController(queries[indexPath.row], { [weak self] in
             self?.addToLRU(self?.queries[indexPath.row] ?? "")
         }), animated: true)
     }
+}
+
+extension SearchViewController: UITextFieldDelegate {
+    // MARK: - UITextField Delegate methods
     
     @objc
     func textFieldDidChange(_ textField: UITextField) {
@@ -50,19 +75,4 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         queries = arr
         tableView.reloadData()
     }
-    
-    private func addToLRU(_ text: String) {
-        LRUCache.sharedInstance.put(text, text)
-    }
-    
-    private func getFromLRU() -> [String] {
-        return LRUCache.sharedInstance.get()
-    }
-    
-    @IBAction func searchButtonTapped() {
-        navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchTextField.text ?? "", { [weak self] in
-            self?.addToLRU(self?.searchTextField.text ?? "")
-        }), animated: true)
-    }
-    
 }

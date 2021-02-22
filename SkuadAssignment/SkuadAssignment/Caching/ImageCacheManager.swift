@@ -30,10 +30,16 @@ class ImageCacheManager: NSObject {
     
     let imageCache = NSCache<NSString, UIImage>()
     
+    /**
+     * Get the saved image from cache
+     */
     func getImage(_ imageURL: String) -> UIImage? {
         return imageCache.object(forKey: imageURL as NSString)
     }
     
+    /**
+     * Download the image and save to the cache 
+     */
     func downloadAndSaveImage(_ imageURL: String) {
         if let url = URL(string: imageURL),
            let data = try? Data(contentsOf: url) {

@@ -50,6 +50,8 @@ class FullScreenImageViewController: UIViewController {
 }
 
 extension FullScreenImageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // MARK: - UICollectionView Datasource methods
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return listItems.count
     }

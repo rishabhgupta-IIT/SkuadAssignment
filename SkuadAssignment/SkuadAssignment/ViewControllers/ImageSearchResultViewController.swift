@@ -100,6 +100,8 @@ class ImageSearchResultViewController: UIViewController {
 }
 
 extension ImageSearchResultViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    // MARK: - UICollectionView Datasource methods
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return listItems.count
     }
@@ -132,6 +134,7 @@ extension ImageSearchResultViewController: UICollectionViewDataSource, UICollect
         }
     }
     
+    // MARK: - UICollectionView Delegate methods
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let fullScreenVC = FullScreenImageViewController.viewController(listItems, indexPath)
         navigationController?.pushViewController(fullScreenVC, animated: true)

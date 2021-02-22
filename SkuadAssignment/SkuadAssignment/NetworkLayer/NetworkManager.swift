@@ -21,6 +21,9 @@ class NetworkManager: NSObject {
         super.init()
     }
     
+    /**
+     * Fetch the images based on the queryString and pageNumber(to support pagination)
+     */
     func getImages(with queryString: String, _ pageNumber: Int, _ completion: @escaping ([SearchImageItem]?, Error?) ->Void) {
         let params: [String: Any] = [
             "key": "20346365-bbbaaf00b502449fd46b875d3",
