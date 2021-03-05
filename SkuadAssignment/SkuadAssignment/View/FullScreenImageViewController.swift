@@ -14,7 +14,6 @@ class FullScreenImageViewController: UIViewController {
     
     var searchResultViewModel: ImageSearchResultViewModel?
     var indexNumber = IndexPath(item: 0, section: 1)
-    let imageCache = ImageCacheManager.shared
     
     static func viewController(_ searchResultViewModel: ImageSearchResultViewModel?, _ indexNumber: IndexPath) -> FullScreenImageViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -68,21 +67,21 @@ extension FullScreenImageViewController: UICollectionViewDelegate, UICollectionV
         let imageURL = searchResultViewModel?.listItems[indexPath.row].webformatURL ?? "dummy_image"
         let previewURL = searchResultViewModel?.listItems[indexPath.row].previewURL ?? "dummy_image"
         
-        if let imageAvailable = imageCache.getImage(imageURL) {
+        if let imageAvailable = searchResultViewModel?.imageCache.getImage(imageURL) {
             cell.configure(imageAvailable)
         }
         else {
             let previewImage = UIImage(named: "dummy_image")
             cell.configure(previewImage)
             
-            if let imageAvailable = imageCache.getImage(previewURL) {
+            if let imageAvailable = searchResultViewModel?.imageCache.getImage(previewURL) {
                 cell.configure(imageAvailable)
             }
             
-            imageCache.downloadQueue.addOperation { [weak self] in
-                self?.imageCache.downloadAndSaveImage(imageURL)
+            searchResultViewModel?.imageCache.downloadQueue.addOperation { [weak self] in
+                self?.searchResultViewModel?.imageCache.downloadAndSaveImage(imageURL)
                 DispatchQueue.main.async {
-                    guard cell.identifier == imageURL, let imageAvailable = self?.imageCache.getImage(imageURL) else { return }
+                    guard cell.identifier == imageURL, let imageAvailable = self?.searchResultViewModel?.imageCache.getImage(imageURL) else { return }
                     cell.configure(imageAvailable)
                 }
             }
