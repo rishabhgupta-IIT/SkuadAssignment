@@ -12,26 +12,20 @@ class SearchViewController: UIViewController {
     @IBOutlet weak private var tableView: UITableView!
     @IBOutlet weak private var searchTextField: UITextField!
     
-    var queries = [String]()
+    var searchViewModel: SearchViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Search for images"
+        searchViewModel = SearchViewModel()
+        searchViewModel?.reloadTableView = tableView?.reloadData
         searchTextField.addTarget(self, action: #selector(SearchViewController.textFieldDidChange(_:)), for: .editingChanged)
-    }
-    
-    private func addToLRU(_ text: String) {
-        LRUCache.sharedInstance.put(text, text)
-    }
-    
-    private func getFromLRU() -> [String] {
-        return LRUCache.sharedInstance.get()
     }
     
     @IBAction func searchButtonTapped() {
         if !(searchTextField.text?.isEmpty ?? true) {
             navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchTextField.text ?? "", { [weak self] in
-                self?.addToLRU(self?.searchTextField.text ?? "")
+                self?.searchViewModel?.addToLRU(self?.searchTextField.text ?? "")
             }), animated: true)
         }
     }
@@ -41,19 +35,19 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - UITableView Datasource methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return queries.count
+        return searchViewModel?.queries.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "tableViewIdentifier") {
-            cell.textLabel?.text = queries[indexPath.row]
+            cell.textLabel?.text = searchViewModel?.queries[indexPath.row] ?? ""
             cell.textLabel?.textColor = UIColor.gray
             cell.selectionStyle = .none
             return cell
         }
         else {
             let cell = UITableViewCell(style: .default, reuseIdentifier: "tableViewIdentifier")
-            cell.textLabel?.text = queries[indexPath.row]
+            cell.textLabel?.text = searchViewModel?.queries[indexPath.row] ?? ""
             cell.textLabel?.textColor = UIColor.gray
             cell.selectionStyle = .none
             return cell
@@ -61,7 +55,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if getFromLRU().count > 0 {
+        if (searchViewModel?.getFromLRU().count ?? 0) > 0 {
             return "Recent Searches"
         }
         return ""
@@ -70,9 +64,11 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - UITableView Delegate methods
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(ImageSearchResultViewController.viewController(queries[indexPath.row], { [weak self] in
-            self?.addToLRU(self?.queries[indexPath.row] ?? "")
-        }), animated: true)
+        if let searchViewModel = searchViewModel {
+            navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchViewModel.queries[indexPath.row], { [weak self] in
+                self?.searchViewModel?.addToLRU(self?.searchViewModel?.queries[indexPath.row] ?? "")
+            }), animated: true)
+        }
     }
 }
 
@@ -81,8 +77,6 @@ extension SearchViewController: UITextFieldDelegate {
     
     @objc
     func textFieldDidChange(_ textField: UITextField) {
-        let arr = getFromLRU()
-        queries = arr
-        tableView.reloadData()
+        searchViewModel?.textFieldDidChange()
     }
 }
