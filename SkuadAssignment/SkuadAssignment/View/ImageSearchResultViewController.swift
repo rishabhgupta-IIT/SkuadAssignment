@@ -26,20 +26,9 @@ class ImageSearchResultViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchResultViewModel?.reloadData = collectionView.reloadData
-        searchResultViewModel?.onError = {
-            let alert = UIAlertController(title: "Error", message: "No data available!!!", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {_ in
-                if self.searchResultViewModel?.currentPage == 1 {
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }))
-            self.present(alert, animated: true, completion: nil)
-        }
-        
-        searchResultViewModel?.stopAnimating = activityIndicator.stopAnimating
         title = "Image Search"
         collectionView.register(UINib(nibName: "PreviewImageCell", bundle: nil), forCellWithReuseIdentifier: "previewImageCell")
+        setupSearchResultViewModel()
         setupCollectionViewFlowLayout()
         setupActivityIndicator()
     }
@@ -73,6 +62,20 @@ class ImageSearchResultViewController: UIViewController {
                                         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                                         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
         activityIndicator.startAnimating()
+    }
+    
+    private func setupSearchResultViewModel() {
+        searchResultViewModel?.reloadData = collectionView.reloadData
+        searchResultViewModel?.stopAnimating = activityIndicator.stopAnimating
+        searchResultViewModel?.onError = {
+            let alert = UIAlertController(title: "Error", message: "No data available!!!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {_ in
+                if self.searchResultViewModel?.currentPage == 1 {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 }
 
