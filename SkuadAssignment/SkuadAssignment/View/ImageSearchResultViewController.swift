@@ -14,28 +14,34 @@ class ImageSearchResultViewController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     var itemInSongleRow = 3
     var itemSpacing = 5
-    var currentPage = 1
-    var queryString = ""
-    var addToLRU: (() -> Void) = {}
-    var listItems = [SearchImageItem]()
-    let imageCache = ImageCacheManager.shared
+    var searchResultViewModel: ImageSearchResultViewModel?
     let activityIndicator = UIActivityIndicatorView(style: .medium)
         
-    static func viewController(_ queryString: String, _ addToLRU: @escaping (() -> Void)) -> ImageSearchResultViewController {
+    static func viewController(_ searchResultViewModel: ImageSearchResultViewModel?) -> ImageSearchResultViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let searchImageVC = storyboard.instantiateViewController(withIdentifier: "searchImageVC") as! ImageSearchResultViewController
-        searchImageVC.queryString = queryString
-        searchImageVC.addToLRU = addToLRU
+        searchImageVC.searchResultViewModel = searchResultViewModel
         return searchImageVC
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchResultViewModel?.reloadData = collectionView.reloadData
+        searchResultViewModel?.onError = {
+            let alert = UIAlertController(title: "Error", message: "No data available!!!", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {_ in
+                if self.searchResultViewModel?.currentPage == 1 {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+        
+        searchResultViewModel?.stopAnimating = activityIndicator.stopAnimating
         title = "Image Search"
         collectionView.register(UINib(nibName: "PreviewImageCell", bundle: nil), forCellWithReuseIdentifier: "previewImageCell")
         setupCollectionViewFlowLayout()
         setupActivityIndicator()
-        prepareDataSource(queryString, currentPage)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,66 +74,37 @@ class ImageSearchResultViewController: UIViewController {
                                         activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)])
         activityIndicator.startAnimating()
     }
-    
-    private func prepareDataSource(_ title: String, _ pageNumber: Int) {
-        NetworkManager.sharedInstance.getImages(with: title, pageNumber) { [weak self] itemList, error in
-            if let strongSelf = self {
-                DispatchQueue.main.async {
-                    strongSelf.activityIndicator.stopAnimating()
-                }
-                if let itemList = itemList, itemList.count > 0 {
-                    // success
-                    strongSelf.listItems += itemList
-                    DispatchQueue.main.async {
-                        strongSelf.addToLRU()
-                        strongSelf.collectionView.reloadData()
-                    }
-                }
-                else {
-                    DispatchQueue.main.async {
-                        let alert = UIAlertController(title: "Error", message: "No data available!!!", preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-                            if strongSelf.currentPage == 1 {
-                                strongSelf.navigationController?.popViewController(animated: true)
-                            }
-                        }))
-                        strongSelf.present(alert, animated: true, completion: nil)
-                    }
-                }
-            }
-        }
-    }
 }
 
 extension ImageSearchResultViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     // MARK: - UICollectionView Datasource methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return listItems.count
+        return searchResultViewModel?.listItems.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let previewImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "previewImageCell", for: indexPath) as! PreviewImageCell
-        let imageURL = listItems[indexPath.row].previewURL
+        let imageURL = searchResultViewModel?.listItems[indexPath.row].previewURL ?? "dummy_image"
         previewImageCell.identifier = imageURL
         setImage(cell: previewImageCell, at: indexPath)
         return previewImageCell
     }
     
     func setImage(cell: PreviewImageCell, at indexPath: IndexPath) {
-        let imageURL = listItems[indexPath.row].previewURL
+        let imageURL = searchResultViewModel?.listItems[indexPath.row].previewURL ?? "dummy_image"
         
-        if let imageAvailable = imageCache.getImage(imageURL) {
+        if let imageAvailable = searchResultViewModel?.imageCache.getImage(imageURL) {
             cell.configure(imageAvailable)
         }
         else {
             let previewImage = UIImage(named: "dummy_image")
             cell.configure(previewImage)
 
-            imageCache.downloadQueue.addOperation { [weak self] in
-                self?.imageCache.downloadAndSaveImage(imageURL)
+            searchResultViewModel?.imageCache.downloadQueue.addOperation { [weak self] in
+                self?.searchResultViewModel?.imageCache.downloadAndSaveImage(imageURL)
                 DispatchQueue.main.async {
-                    guard cell.identifier == imageURL, let imageAvailable = self?.imageCache.getImage(imageURL) else { return }
+                    guard cell.identifier == imageURL, let imageAvailable = self?.searchResultViewModel?.imageCache.getImage(imageURL) else { return }
                     cell.configure(imageAvailable)
                 }
             }
@@ -136,15 +113,17 @@ extension ImageSearchResultViewController: UICollectionViewDataSource, UICollect
     
     // MARK: - UICollectionView Delegate methods
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let fullScreenVC = FullScreenImageViewController.viewController(listItems, indexPath)
-        navigationController?.pushViewController(fullScreenVC, animated: true)
+        if let searchResultViewModel = searchResultViewModel {
+            let fullScreenVC = FullScreenImageViewController.viewController(searchResultViewModel, indexPath)
+            navigationController?.pushViewController(fullScreenVC, animated: true)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // pagination
-        if indexPath.item > (currentPage * NetworkManager.sharedInstance.perPage - 30) {
-            currentPage += 1
-            prepareDataSource(queryString, currentPage)
+        if indexPath.item > ((searchResultViewModel?.currentPage ?? 1) * NetworkManager.sharedInstance.perPage - 30) {
+            searchResultViewModel?.currentPage += 1
+            searchResultViewModel?.prepareDataSource(searchResultViewModel?.queryString ?? "", searchResultViewModel?.currentPage ?? 1)
         }
     }
 }

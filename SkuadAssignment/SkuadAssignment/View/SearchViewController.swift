@@ -24,9 +24,10 @@ class SearchViewController: UIViewController {
     
     @IBAction func searchButtonTapped() {
         if !(searchTextField.text?.isEmpty ?? true) {
-            navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchTextField.text ?? "", { [weak self] in
+            let searchResultViewModel = ImageSearchResultViewModel(searchTextField.text ?? "", { [weak self] in
                 self?.searchViewModel?.addToLRU(self?.searchTextField.text ?? "")
-            }), animated: true)
+            })
+            navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchResultViewModel), animated: true)
         }
     }
 }
@@ -65,9 +66,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let searchViewModel = searchViewModel {
-            navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchViewModel.queries[indexPath.row], { [weak self] in
+            let searchResultViewModel = ImageSearchResultViewModel(searchViewModel.queries[indexPath.row], { [weak self] in
                 self?.searchViewModel?.addToLRU(self?.searchViewModel?.queries[indexPath.row] ?? "")
-            }), animated: true)
+            })
+            navigationController?.pushViewController(ImageSearchResultViewController.viewController(searchResultViewModel), animated: true)
         }
     }
 }

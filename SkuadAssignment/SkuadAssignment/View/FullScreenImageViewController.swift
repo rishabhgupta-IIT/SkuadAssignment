@@ -12,14 +12,14 @@ class FullScreenImageViewController: UIViewController {
     
     @IBOutlet weak private var collectionView: UICollectionView!
     
-    var listItems = [SearchImageItem]()
+    var searchResultViewModel: ImageSearchResultViewModel?
     var indexNumber = IndexPath(item: 0, section: 1)
     let imageCache = ImageCacheManager.shared
     
-    static func viewController(_ listItems: [SearchImageItem], _ indexNumber: IndexPath) -> FullScreenImageViewController {
+    static func viewController(_ searchResultViewModel: ImageSearchResultViewModel?, _ indexNumber: IndexPath) -> FullScreenImageViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let fullScreenImageVC = storyboard.instantiateViewController(withIdentifier: "fullScreenImageVC") as! FullScreenImageViewController
-        fullScreenImageVC.listItems = listItems
+        fullScreenImageVC.searchResultViewModel = searchResultViewModel
         fullScreenImageVC.indexNumber = indexNumber
         return fullScreenImageVC
     }
@@ -53,20 +53,20 @@ extension FullScreenImageViewController: UICollectionViewDelegate, UICollectionV
     // MARK: - UICollectionView Datasource methods
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return listItems.count
+        return searchResultViewModel?.listItems.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let fullScreenImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "fullScreenImageCell", for: indexPath) as! FullScreenImageCell
-        let imageURL = listItems[indexPath.row].webformatURL
+        let imageURL = searchResultViewModel?.listItems[indexPath.row].webformatURL ?? "dummy_image"
         fullScreenImageCell.identifier = imageURL
         setImage(cell: fullScreenImageCell, at: indexPath)
         return fullScreenImageCell
     }
     
     func setImage(cell: FullScreenImageCell, at indexPath: IndexPath) {
-        let imageURL = listItems[indexPath.row].webformatURL
-        let previewURL = listItems[indexPath.row].previewURL
+        let imageURL = searchResultViewModel?.listItems[indexPath.row].webformatURL ?? "dummy_image"
+        let previewURL = searchResultViewModel?.listItems[indexPath.row].previewURL ?? "dummy_image"
         
         if let imageAvailable = imageCache.getImage(imageURL) {
             cell.configure(imageAvailable)
