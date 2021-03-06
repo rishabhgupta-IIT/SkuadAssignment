@@ -56,10 +56,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if (searchViewModel?.getFromLRU().count ?? 0) > 0 {
-            return "Recent Searches"
-        }
-        return ""
+        return searchViewModel?.headerTitle
     }
     
     // MARK: - UITableView Delegate methods
