@@ -58,7 +58,9 @@ class LRUCache: NSObject {
         var arr = [String]()
         var node = head.next
         while node?.next !=  nil {
-            arr.append(node?.key ?? "")
+            if let node = node {
+                arr.append(node.key)
+            }
             node = node?.next
         }
         return arr
