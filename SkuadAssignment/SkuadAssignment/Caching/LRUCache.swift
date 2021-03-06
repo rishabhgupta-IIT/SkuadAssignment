@@ -84,4 +84,8 @@ class LRUCache: NSObject {
             count += 1
         }
     }
+    
+    func resetLRUCache() {
+        LRUCache.sharedInstance = LRUCache(10)
+    }
 }

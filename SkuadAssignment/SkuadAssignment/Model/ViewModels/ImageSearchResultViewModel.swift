@@ -49,26 +49,6 @@ class ImageSearchResultViewModel {
         }
     }
     
-    func setImage(cell: PreviewImageCell, at indexPath: IndexPath) {
-        let imageURL = listItems[indexPath.row].previewURL
-        
-        if let imageAvailable = imageCache.getImage(imageURL) {
-            cell.configure(imageAvailable)
-        }
-        else {
-            let previewImage = UIImage(named: "dummy_image")
-            cell.configure(previewImage)
-
-            imageCache.downloadQueue.addOperation { [weak self] in
-                self?.imageCache.downloadAndSaveImage(imageURL)
-                DispatchQueue.main.async {
-                    guard cell.identifier == imageURL, let imageAvailable = self?.imageCache.getImage(imageURL) else { return }
-                    cell.configure(imageAvailable)
-                }
-            }
-        }
-    }
-    
     func pagination(_ indexPath: IndexPath) {
         if indexPath.item > ((currentPage) * networkManager.perPage - 30) {
             currentPage += 1

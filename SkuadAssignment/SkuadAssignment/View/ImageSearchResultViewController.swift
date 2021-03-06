@@ -90,8 +90,32 @@ extension ImageSearchResultViewController: UICollectionViewDataSource, UICollect
         let previewImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "previewImageCell", for: indexPath) as! PreviewImageCell
         let imageURL = searchResultViewModel?.listItems[indexPath.row].previewURL ?? "dummy_image"
         previewImageCell.identifier = imageURL
-        searchResultViewModel?.setImage(cell: previewImageCell, at: indexPath)
+        setImage(cell: previewImageCell, at: indexPath)
         return previewImageCell
+    }
+    
+    func setImage(cell: PreviewImageCell, at indexPath: IndexPath) {
+        guard let searchResultViewModel = searchResultViewModel else {
+            return
+        }
+        
+        let imageURL = searchResultViewModel.listItems[indexPath.row].previewURL
+        
+        if let imageAvailable = searchResultViewModel.imageCache.getImage(imageURL) {
+            cell.configure(imageAvailable)
+        }
+        else {
+            let previewImage = UIImage(named: "dummy_image")
+            cell.configure(previewImage)
+
+            searchResultViewModel.imageCache.downloadQueue.addOperation { [weak self] in
+                self?.searchResultViewModel?.imageCache.downloadAndSaveImage(imageURL)
+                DispatchQueue.main.async {
+                    guard cell.identifier == imageURL, let imageAvailable = self?.searchResultViewModel?.imageCache.getImage(imageURL) else { return }
+                    cell.configure(imageAvailable)
+                }
+            }
+        }
     }
         
     // MARK: - UICollectionView Delegate methods
