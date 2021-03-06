@@ -90,30 +90,10 @@ extension ImageSearchResultViewController: UICollectionViewDataSource, UICollect
         let previewImageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "previewImageCell", for: indexPath) as! PreviewImageCell
         let imageURL = searchResultViewModel?.listItems[indexPath.row].previewURL ?? "dummy_image"
         previewImageCell.identifier = imageURL
-        setImage(cell: previewImageCell, at: indexPath)
+        searchResultViewModel?.setImage(cell: previewImageCell, at: indexPath)
         return previewImageCell
     }
-    
-    func setImage(cell: PreviewImageCell, at indexPath: IndexPath) {
-        let imageURL = searchResultViewModel?.listItems[indexPath.row].previewURL ?? "dummy_image"
         
-        if let imageAvailable = searchResultViewModel?.imageCache.getImage(imageURL) {
-            cell.configure(imageAvailable)
-        }
-        else {
-            let previewImage = UIImage(named: "dummy_image")
-            cell.configure(previewImage)
-
-            searchResultViewModel?.imageCache.downloadQueue.addOperation { [weak self] in
-                self?.searchResultViewModel?.imageCache.downloadAndSaveImage(imageURL)
-                DispatchQueue.main.async {
-                    guard cell.identifier == imageURL, let imageAvailable = self?.searchResultViewModel?.imageCache.getImage(imageURL) else { return }
-                    cell.configure(imageAvailable)
-                }
-            }
-        }
-    }
-    
     // MARK: - UICollectionView Delegate methods
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let searchResultViewModel = searchResultViewModel {
@@ -124,10 +104,7 @@ extension ImageSearchResultViewController: UICollectionViewDataSource, UICollect
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         // pagination
-        if indexPath.item > ((searchResultViewModel?.currentPage ?? 1) * NetworkManager.sharedInstance.perPage - 30) {
-            searchResultViewModel?.currentPage += 1
-            searchResultViewModel?.prepareDataSource(searchResultViewModel?.queryString ?? "", searchResultViewModel?.currentPage ?? 1)
-        }
+        searchResultViewModel?.pagination(indexPath)
     }
 }
 
