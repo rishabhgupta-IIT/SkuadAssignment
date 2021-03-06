@@ -7,7 +7,12 @@
 
 import Foundation
 
-class NetworkManager: NSObject {
+protocol NetworkManagerProtocol {
+    var perPage: Int {get set}
+    func getImages(with queryString: String, _ pageNumber: Int, _ completion: @escaping ([SearchImageItem]?, Error?) ->Void)
+}
+
+class NetworkManager: NSObject, NetworkManagerProtocol {
     
     /**
      * Shared instance

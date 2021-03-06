@@ -24,8 +24,21 @@
 		1898491C25E201B300C5F6B9 /* FullScreenImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1898491B25E201B300C5F6B9 /* FullScreenImageCell.xib */; };
 		18C2CF9225F217C600A8E189 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C2CF9125F217C600A8E189 /* SearchViewModel.swift */; };
 		18C2CF9525F217E700A8E189 /* ImageSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C2CF9425F217E700A8E189 /* ImageSearchResultViewModel.swift */; };
+		18C2CFAA25F27BEA00A8E189 /* SearchViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C2CFA925F27BEA00A8E189 /* SearchViewModelTests.swift */; };
+		18C2CFB125F283DB00A8E189 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C2CFB025F283DB00A8E189 /* MockNetworkManager.swift */; };
+		18C2CFB725F2851700A8E189 /* ImageSearchResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C2CFB625F2851700A8E189 /* ImageSearchResultViewModelTests.swift */; };
 		18D16FCA25E105BE00905A81 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D16FC925E105BE00905A81 /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		18C2CFA025F239BF00A8E189 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 186CD81E25E0F2B800926E91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 186CD82525E0F2B800926E91;
+			remoteInfo = SkuadAssignment;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1824D89825E281C900E4696E /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
@@ -47,11 +60,23 @@
 		1898491B25E201B300C5F6B9 /* FullScreenImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FullScreenImageCell.xib; sourceTree = "<group>"; };
 		18C2CF9125F217C600A8E189 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		18C2CF9425F217E700A8E189 /* ImageSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchResultViewModel.swift; sourceTree = "<group>"; };
+		18C2CF9B25F239BF00A8E189 /* SkuadAssignmentTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkuadAssignmentTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18C2CF9F25F239BF00A8E189 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18C2CFA925F27BEA00A8E189 /* SearchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelTests.swift; sourceTree = "<group>"; };
+		18C2CFB025F283DB00A8E189 /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
+		18C2CFB625F2851700A8E189 /* ImageSearchResultViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchResultViewModelTests.swift; sourceTree = "<group>"; };
 		18D16FC925E105BE00905A81 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		186CD82325E0F2B800926E91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C2CF9825F239BF00A8E189 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -74,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				186CD82825E0F2B800926E91 /* SkuadAssignment */,
+				18C2CF9C25F239BF00A8E189 /* SkuadAssignmentTests */,
 				186CD82725E0F2B800926E91 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				186CD82625E0F2B800926E91 /* SkuadAssignment.app */,
+				18C2CF9B25F239BF00A8E189 /* SkuadAssignmentTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -144,6 +171,25 @@
 			path = Model/ViewModels;
 			sourceTree = "<group>";
 		};
+		18C2CF9C25F239BF00A8E189 /* SkuadAssignmentTests */ = {
+			isa = PBXGroup;
+			children = (
+				18C2CFAF25F283C600A8E189 /* Mock */,
+				18C2CF9F25F239BF00A8E189 /* Info.plist */,
+				18C2CFA925F27BEA00A8E189 /* SearchViewModelTests.swift */,
+				18C2CFB625F2851700A8E189 /* ImageSearchResultViewModelTests.swift */,
+			);
+			path = SkuadAssignmentTests;
+			sourceTree = "<group>";
+		};
+		18C2CFAF25F283C600A8E189 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				18C2CFB025F283DB00A8E189 /* MockNetworkManager.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -164,17 +210,39 @@
 			productReference = 186CD82625E0F2B800926E91 /* SkuadAssignment.app */;
 			productType = "com.apple.product-type.application";
 		};
+		18C2CF9A25F239BF00A8E189 /* SkuadAssignmentTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18C2CFA225F239BF00A8E189 /* Build configuration list for PBXNativeTarget "SkuadAssignmentTests" */;
+			buildPhases = (
+				18C2CF9725F239BF00A8E189 /* Sources */,
+				18C2CF9825F239BF00A8E189 /* Frameworks */,
+				18C2CF9925F239BF00A8E189 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18C2CFA125F239BF00A8E189 /* PBXTargetDependency */,
+			);
+			name = SkuadAssignmentTests;
+			productName = SkuadAssignmentTests;
+			productReference = 18C2CF9B25F239BF00A8E189 /* SkuadAssignmentTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		186CD81E25E0F2B800926E91 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					186CD82525E0F2B800926E91 = {
 						CreatedOnToolsVersion = 12.0;
+					};
+					18C2CF9A25F239BF00A8E189 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 186CD82525E0F2B800926E91;
 					};
 				};
 			};
@@ -192,6 +260,7 @@
 			projectRoot = "";
 			targets = (
 				186CD82525E0F2B800926E91 /* SkuadAssignment */,
+				18C2CF9A25F239BF00A8E189 /* SkuadAssignmentTests */,
 			);
 		};
 /* End PBXProject section */
@@ -206,6 +275,13 @@
 				1898490C25E107AF00C5F6B9 /* PreviewImageCell.xib in Resources */,
 				1898491C25E201B300C5F6B9 /* FullScreenImageCell.xib in Resources */,
 				186CD83125E0F2B800926E91 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18C2CF9925F239BF00A8E189 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +308,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		18C2CF9725F239BF00A8E189 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C2CFB125F283DB00A8E189 /* MockNetworkManager.swift in Sources */,
+				18C2CFAA25F27BEA00A8E189 /* SearchViewModelTests.swift in Sources */,
+				18C2CFB725F2851700A8E189 /* ImageSearchResultViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		18C2CFA125F239BF00A8E189 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 186CD82525E0F2B800926E91 /* SkuadAssignment */;
+			targetProxy = 18C2CFA025F239BF00A8E189 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		186CD82F25E0F2B800926E91 /* Main.storyboard */ = {
@@ -408,6 +502,48 @@
 			};
 			name = Release;
 		};
+		18C2CFA325F239BF00A8E189 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7C8P9U47ZE;
+				INFOPLIST_FILE = SkuadAssignmentTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.care.SkuadAssignmentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SkuadAssignment.app/SkuadAssignment";
+			};
+			name = Debug;
+		};
+		18C2CFA425F239BF00A8E189 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7C8P9U47ZE;
+				INFOPLIST_FILE = SkuadAssignmentTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.care.SkuadAssignmentTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SkuadAssignment.app/SkuadAssignment";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -425,6 +561,15 @@
 			buildConfigurations = (
 				186CD83B25E0F2BB00926E91 /* Debug */,
 				186CD83C25E0F2BB00926E91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18C2CFA225F239BF00A8E189 /* Build configuration list for PBXNativeTarget "SkuadAssignmentTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18C2CFA325F239BF00A8E189 /* Debug */,
+				18C2CFA425F239BF00A8E189 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
