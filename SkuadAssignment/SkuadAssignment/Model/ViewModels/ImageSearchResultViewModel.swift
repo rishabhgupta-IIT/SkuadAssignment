@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class ImageSearchResultViewModel {
     var listItems = [SearchImageItem]()
@@ -16,15 +17,17 @@ class ImageSearchResultViewModel {
     var reloadData: (() -> Void) = {}
     var stopAnimating: (() -> Void) = {}
     var onError: (() -> Void) = {}
+    var networkManager: NetworkManagerProtocol
 
-    init(_ queryString: String, _ addToLRU: @escaping (() -> Void)) {
+    init(_ queryString: String, _ addToLRU: @escaping (() -> Void), _ networkManager: NetworkManagerProtocol = NetworkManager.sharedInstance) {
         self.queryString = queryString
         self.addToLRU = addToLRU
+        self.networkManager = networkManager
         prepareDataSource(queryString, currentPage)
     }
     
     func prepareDataSource(_ title: String, _ pageNumber: Int) {
-        NetworkManager.sharedInstance.getImages(with: title, pageNumber) { [weak self] itemList, error in
+        networkManager.getImages(with: title, pageNumber) { [weak self] itemList, error in
             if let strongSelf = self {
                 DispatchQueue.main.async {
                     strongSelf.stopAnimating()
@@ -43,6 +46,33 @@ class ImageSearchResultViewModel {
                     }
                 }
             }
+        }
+    }
+    
+    func setImage(cell: PreviewImageCell, at indexPath: IndexPath) {
+        let imageURL = listItems[indexPath.row].previewURL
+        
+        if let imageAvailable = imageCache.getImage(imageURL) {
+            cell.configure(imageAvailable)
+        }
+        else {
+            let previewImage = UIImage(named: "dummy_image")
+            cell.configure(previewImage)
+
+            imageCache.downloadQueue.addOperation { [weak self] in
+                self?.imageCache.downloadAndSaveImage(imageURL)
+                DispatchQueue.main.async {
+                    guard cell.identifier == imageURL, let imageAvailable = self?.imageCache.getImage(imageURL) else { return }
+                    cell.configure(imageAvailable)
+                }
+            }
+        }
+    }
+    
+    func pagination(_ indexPath: IndexPath) {
+        if indexPath.item > ((currentPage) * networkManager.perPage - 30) {
+            currentPage += 1
+            prepareDataSource(queryString, currentPage )
         }
     }
 }
