@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18189F5025F34EA1006A5F82 /* ImageCacheManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18189F4F25F34EA1006A5F82 /* ImageCacheManagerTests.swift */; };
 		1824D89925E281C900E4696E /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1824D89825E281C900E4696E /* ImageCacheManager.swift */; };
 		1824D89C25E2ABF000E4696E /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1824D89B25E2ABF000E4696E /* SearchViewController.swift */; };
 		1824D89F25E2B4A900E4696E /* LRUCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1824D89E25E2B4A900E4696E /* LRUCache.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18189F4F25F34EA1006A5F82 /* ImageCacheManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManagerTests.swift; sourceTree = "<group>"; };
 		1824D89825E281C900E4696E /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		1824D89B25E2ABF000E4696E /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		1824D89E25E2B4A900E4696E /* LRUCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCache.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				18C2CF9F25F239BF00A8E189 /* Info.plist */,
 				18C2CFA925F27BEA00A8E189 /* SearchViewModelTests.swift */,
 				18C2CFB625F2851700A8E189 /* ImageSearchResultViewModelTests.swift */,
+				18189F4F25F34EA1006A5F82 /* ImageCacheManagerTests.swift */,
 			);
 			path = SkuadAssignmentTests;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18189F5025F34EA1006A5F82 /* ImageCacheManagerTests.swift in Sources */,
 				18C2CFB125F283DB00A8E189 /* MockNetworkManager.swift in Sources */,
 				18C2CFAA25F27BEA00A8E189 /* SearchViewModelTests.swift in Sources */,
 				18C2CFB725F2851700A8E189 /* ImageSearchResultViewModelTests.swift in Sources */,
