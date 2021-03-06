@@ -28,6 +28,8 @@ class ImageSearchResultViewController: UIViewController {
         super.viewDidLoad()
         title = "Image Search"
         collectionView.register(UINib(nibName: "PreviewImageCell", bundle: nil), forCellWithReuseIdentifier: "previewImageCell")
+        // For UI Testing purpose
+        collectionView.accessibilityLabel = "imageSearchResultCollectionView"
         setupSearchResultViewModel()
         setupCollectionViewFlowLayout()
         setupActivityIndicator()

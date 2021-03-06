@@ -29,10 +29,18 @@
 		18C2CFB125F283DB00A8E189 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C2CFB025F283DB00A8E189 /* MockNetworkManager.swift */; };
 		18C2CFB725F2851700A8E189 /* ImageSearchResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C2CFB625F2851700A8E189 /* ImageSearchResultViewModelTests.swift */; };
 		18D16FCA25E105BE00905A81 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D16FC925E105BE00905A81 /* NetworkManager.swift */; };
+		18DC61D025F3865D00A73D70 /* SkuadAssignmentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC61CF25F3865D00A73D70 /* SkuadAssignmentUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		18C2CFA025F239BF00A8E189 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 186CD81E25E0F2B800926E91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 186CD82525E0F2B800926E91;
+			remoteInfo = SkuadAssignment;
+		};
+		18DC61D225F3865D00A73D70 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 186CD81E25E0F2B800926E91 /* Project object */;
 			proxyType = 1;
@@ -68,6 +76,9 @@
 		18C2CFB025F283DB00A8E189 /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
 		18C2CFB625F2851700A8E189 /* ImageSearchResultViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchResultViewModelTests.swift; sourceTree = "<group>"; };
 		18D16FC925E105BE00905A81 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		18DC61CD25F3865D00A73D70 /* SkuadAssignmentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkuadAssignmentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18DC61CF25F3865D00A73D70 /* SkuadAssignmentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkuadAssignmentUITests.swift; sourceTree = "<group>"; };
+		18DC61D125F3865D00A73D70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +90,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		18C2CF9825F239BF00A8E189 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18DC61CA25F3865D00A73D70 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -102,6 +120,7 @@
 			children = (
 				186CD82825E0F2B800926E91 /* SkuadAssignment */,
 				18C2CF9C25F239BF00A8E189 /* SkuadAssignmentTests */,
+				18DC61CE25F3865D00A73D70 /* SkuadAssignmentUITests */,
 				186CD82725E0F2B800926E91 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -111,6 +130,7 @@
 			children = (
 				186CD82625E0F2B800926E91 /* SkuadAssignment.app */,
 				18C2CF9B25F239BF00A8E189 /* SkuadAssignmentTests.xctest */,
+				18DC61CD25F3865D00A73D70 /* SkuadAssignmentUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -193,6 +213,15 @@
 			path = Mock;
 			sourceTree = "<group>";
 		};
+		18DC61CE25F3865D00A73D70 /* SkuadAssignmentUITests */ = {
+			isa = PBXGroup;
+			children = (
+				18DC61CF25F3865D00A73D70 /* SkuadAssignmentUITests.swift */,
+				18DC61D125F3865D00A73D70 /* Info.plist */,
+			);
+			path = SkuadAssignmentUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -231,6 +260,24 @@
 			productReference = 18C2CF9B25F239BF00A8E189 /* SkuadAssignmentTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		18DC61CC25F3865D00A73D70 /* SkuadAssignmentUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 18DC61D625F3865D00A73D70 /* Build configuration list for PBXNativeTarget "SkuadAssignmentUITests" */;
+			buildPhases = (
+				18DC61C925F3865D00A73D70 /* Sources */,
+				18DC61CA25F3865D00A73D70 /* Frameworks */,
+				18DC61CB25F3865D00A73D70 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				18DC61D325F3865D00A73D70 /* PBXTargetDependency */,
+			);
+			name = SkuadAssignmentUITests;
+			productName = SkuadAssignmentUITests;
+			productReference = 18DC61CD25F3865D00A73D70 /* SkuadAssignmentUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -244,6 +291,10 @@
 						CreatedOnToolsVersion = 12.0;
 					};
 					18C2CF9A25F239BF00A8E189 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 186CD82525E0F2B800926E91;
+					};
+					18DC61CC25F3865D00A73D70 = {
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = 186CD82525E0F2B800926E91;
 					};
@@ -264,6 +315,7 @@
 			targets = (
 				186CD82525E0F2B800926E91 /* SkuadAssignment */,
 				18C2CF9A25F239BF00A8E189 /* SkuadAssignmentTests */,
+				18DC61CC25F3865D00A73D70 /* SkuadAssignmentUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -282,6 +334,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		18C2CF9925F239BF00A8E189 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		18DC61CB25F3865D00A73D70 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -322,6 +381,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		18DC61C925F3865D00A73D70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18DC61D025F3865D00A73D70 /* SkuadAssignmentUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -329,6 +396,11 @@
 			isa = PBXTargetDependency;
 			target = 186CD82525E0F2B800926E91 /* SkuadAssignment */;
 			targetProxy = 18C2CFA025F239BF00A8E189 /* PBXContainerItemProxy */;
+		};
+		18DC61D325F3865D00A73D70 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 186CD82525E0F2B800926E91 /* SkuadAssignment */;
+			targetProxy = 18DC61D225F3865D00A73D70 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -548,6 +620,46 @@
 			};
 			name = Release;
 		};
+		18DC61D425F3865D00A73D70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7C8P9U47ZE;
+				INFOPLIST_FILE = SkuadAssignmentUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.care.SkuadAssignmentUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SkuadAssignment;
+			};
+			name = Debug;
+		};
+		18DC61D525F3865D00A73D70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7C8P9U47ZE;
+				INFOPLIST_FILE = SkuadAssignmentUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.care.SkuadAssignmentUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SkuadAssignment;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -574,6 +686,15 @@
 			buildConfigurations = (
 				18C2CFA325F239BF00A8E189 /* Debug */,
 				18C2CFA425F239BF00A8E189 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18DC61D625F3865D00A73D70 /* Build configuration list for PBXNativeTarget "SkuadAssignmentUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				18DC61D425F3865D00A73D70 /* Debug */,
+				18DC61D525F3865D00A73D70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

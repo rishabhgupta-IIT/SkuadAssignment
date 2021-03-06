@@ -25,6 +25,21 @@ class FullScreenImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupCollectionViewLayout()
+        
+        // For UI Testing purpose
+        collectionView.accessibilityLabel = "fullScreenCollectionView"
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.scrollToItem(at: indexNumber, at: .right, animated: false)
+        collectionView.setNeedsLayout()
+    }
+    
+    private func setupCollectionViewLayout() {
         let cellWidth = UIScreen.main.bounds.width
         let cellSize = CGSize(width: cellWidth , height:cellWidth)
         
@@ -37,14 +52,6 @@ class FullScreenImageViewController: UIViewController {
         collectionView.setCollectionViewLayout(layout, animated: true)
         collectionView.isPagingEnabled = true
         collectionView.register(UINib(nibName: "FullScreenImageCell", bundle: nil), forCellWithReuseIdentifier: "fullScreenImageCell")
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.scrollToItem(at: indexNumber, at: .right, animated: false)
-        collectionView.setNeedsLayout()
     }
 }
 
