@@ -30,6 +30,7 @@
 		18C2CFB725F2851700A8E189 /* ImageSearchResultViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C2CFB625F2851700A8E189 /* ImageSearchResultViewModelTests.swift */; };
 		18D16FCA25E105BE00905A81 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D16FC925E105BE00905A81 /* NetworkManager.swift */; };
 		18DC61D025F3865D00A73D70 /* SkuadAssignmentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC61CF25F3865D00A73D70 /* SkuadAssignmentUITests.swift */; };
+		18DC61DB25F393D300A73D70 /* LRUCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DC61DA25F393D300A73D70 /* LRUCacheTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		18DC61CD25F3865D00A73D70 /* SkuadAssignmentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkuadAssignmentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18DC61CF25F3865D00A73D70 /* SkuadAssignmentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkuadAssignmentUITests.swift; sourceTree = "<group>"; };
 		18DC61D125F3865D00A73D70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18DC61DA25F393D300A73D70 /* LRUCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LRUCacheTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 				18C2CFA925F27BEA00A8E189 /* SearchViewModelTests.swift */,
 				18C2CFB625F2851700A8E189 /* ImageSearchResultViewModelTests.swift */,
 				18189F4F25F34EA1006A5F82 /* ImageCacheManagerTests.swift */,
+				18DC61DA25F393D300A73D70 /* LRUCacheTests.swift */,
 			);
 			path = SkuadAssignmentTests;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18DC61DB25F393D300A73D70 /* LRUCacheTests.swift in Sources */,
 				18189F5025F34EA1006A5F82 /* ImageCacheManagerTests.swift in Sources */,
 				18C2CFB125F283DB00A8E189 /* MockNetworkManager.swift in Sources */,
 				18C2CFAA25F27BEA00A8E189 /* SearchViewModelTests.swift in Sources */,
