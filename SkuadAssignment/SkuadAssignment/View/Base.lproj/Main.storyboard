@@ -17,18 +17,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qqM-Lk-hL3">
-                                <rect key="frame" x="329" y="98" width="80" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="uIa-Cb-FAy"/>
-                                </constraints>
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qqM-Lk-hL3">
+                                <rect key="frame" x="346" y="98" width="48" height="40"/>
                                 <state key="normal" title="Search"/>
                                 <connections>
                                     <action selector="searchButtonTapped" destination="7aO-t5-H6q" eventType="touchUpInside" id="Vu5-4f-jZB"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SXq-lL-3rx">
-                                <rect key="frame" x="20" y="98" width="304" height="40"/>
+                                <rect key="frame" x="20" y="98" width="306" height="40"/>
                                 <accessibility key="accessibilityConfiguration" identifier="searchTextField"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="DKX-Md-aHf"/>
@@ -51,7 +48,7 @@
                         <viewLayoutGuide key="safeArea" id="phh-78-A17"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="qqM-Lk-hL3" secondAttribute="trailing" constant="5" id="12c-2Z-k27"/>
+                            <constraint firstAttribute="trailing" secondItem="qqM-Lk-hL3" secondAttribute="trailing" constant="20" id="12c-2Z-k27"/>
                             <constraint firstItem="qqM-Lk-hL3" firstAttribute="bottom" secondItem="SXq-lL-3rx" secondAttribute="bottom" id="73H-3Q-Pkc"/>
                             <constraint firstAttribute="bottom" secondItem="I5S-Yv-jHo" secondAttribute="bottom" constant="20" id="7Wa-zH-3V7"/>
                             <constraint firstItem="qqM-Lk-hL3" firstAttribute="top" secondItem="SXq-lL-3rx" secondAttribute="top" id="CBz-0e-OGy"/>
@@ -59,7 +56,7 @@
                             <constraint firstItem="SXq-lL-3rx" firstAttribute="top" secondItem="phh-78-A17" secondAttribute="top" constant="10" id="L6h-B7-Jzt"/>
                             <constraint firstAttribute="trailing" secondItem="I5S-Yv-jHo" secondAttribute="trailing" id="VEg-VQ-QPf"/>
                             <constraint firstItem="I5S-Yv-jHo" firstAttribute="leading" secondItem="Rzp-FZ-aQ5" secondAttribute="leading" id="chh-Pq-Uzo"/>
-                            <constraint firstItem="qqM-Lk-hL3" firstAttribute="leading" secondItem="SXq-lL-3rx" secondAttribute="trailing" constant="5" id="lUU-ry-UEd"/>
+                            <constraint firstItem="qqM-Lk-hL3" firstAttribute="leading" secondItem="SXq-lL-3rx" secondAttribute="trailing" constant="20" id="lUU-ry-UEd"/>
                             <constraint firstItem="I5S-Yv-jHo" firstAttribute="top" secondItem="SXq-lL-3rx" secondAttribute="bottom" constant="5" id="oD4-wp-Bhm"/>
                         </constraints>
                     </view>
