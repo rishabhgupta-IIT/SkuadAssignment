@@ -9,6 +9,13 @@ import Foundation
 
 class SearchViewModel {
     
+    var headerTitle: String {
+        if getFromLRU().count > 0 {
+            return "Recent Searches"
+        }
+        return ""
+    }
+    
     var reloadTableView: (() -> Void)?
     
     var queries = [String]() {
